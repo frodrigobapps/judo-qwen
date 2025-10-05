@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Layout from '../../components/layout/Layout';
 import ContentCard from '../../components/dashboard/ContentCard';
 
@@ -48,6 +49,15 @@ export default function ContentDashboard({ supabase }) {
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Contenido Exclusivo</h1>
           <p className="text-gray-600">Accede a videos, documentos y recursos exclusivos para miembros.</p>
+          {user?.user_metadata?.role === 'admin' && (
+            <div className="mt-4">
+              <Link href="/dashboard/upload">
+                <a className="inline-block bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
+                  + Subir Nuevo Contenido
+                </a>
+              </Link>
+            </div>
+          )}
         </div>
 
         {loading ? (
