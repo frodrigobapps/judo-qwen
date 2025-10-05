@@ -1,4 +1,3 @@
-// src/pages/dashboard/upload.jsx
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../../components/layout/Layout';
@@ -16,14 +15,14 @@ export default function UploadContent({ supabase }) {
 
   useEffect(() => {
     const checkUser = async () => {
-      const {  { user } } = await supabase.auth.getUser();
+      const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         router.push('/login');
         return;
       }
       
       // Verificar rol
-      const {  userData, error } = await supabase
+      const { data: userData, error } = await supabase
         .from('users')
         .select('role')
         .eq('id', user.id)
