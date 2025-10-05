@@ -1,13 +1,9 @@
 import '../styles/globals.css';
-import { UserProvider } from '@supabase/auth-helpers-react';
-import { supabase } from '../lib/supabaseClient';
+import { createClient } from '../lib/supabaseClient';
+import { useState } from 'react';
 
-function MyApp({ Component, pageProps }) {
-  return (
-    <UserProvider supabaseClient={supabase}>
-      <Component {...pageProps} />
-    </UserProvider>
-  );
+export default function App({ Component, pageProps }) {
+  const [supabase] = useState(() => createClient());
+
+  return <Component {...pageProps} supabase={supabase} />;
 }
-
-export default MyApp;
