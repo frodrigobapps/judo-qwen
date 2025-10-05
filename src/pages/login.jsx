@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Eye, EyeOff, Lock } from 'lucide-react';
-import { supabase } from '../lib/supabaseClient';
 import Layout from '../components/layout/Layout';
 
-export default function Login() {
+export default function Login({ supabase }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
