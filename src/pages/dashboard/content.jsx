@@ -1,24 +1,27 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useUser } from '@supabase/auth-helpers-react';
-import { supabase } from '../../lib/supabaseClient';
 import Layout from '../../components/layout/Layout';
 import ContentCard from '../../components/dashboard/ContentCard';
 
-export default function ContentDashboard() {
-  const user = useUser();
+export default function ContentDashboard({ supabase }) {
   const router = useRouter();
   const [content, setContent] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (!user) {
-      router.push('/login');
-      return;
-    }
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/login');
+        return;
+      }
+      setUser(user);
+      fetchContent();
+    };
 
-    fetchContent();
-  }, [user, router]);
+    checkUser();
+  }, [supabase, router]);
 
   const fetchContent = async () => {
     setLoading(true);
