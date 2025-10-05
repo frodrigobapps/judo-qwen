@@ -132,14 +132,4 @@ export default function Header({ supabase }) {
               </div>
             ) : (
               <Link href="/login">
-                <a className="block bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-center">
-                  Acceder
-                </a>
-              </Link>
-            )}
-          </div>
-        )}
-      </div>
-    </header>
-  );
-}
+                <a className="block bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700
