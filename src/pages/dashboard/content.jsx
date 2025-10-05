@@ -85,4 +85,16 @@ export default function ContentDashboard({ supabase }) {
 
         {loading ? (
           <div className="flex justify-center items-center h-64">
-            <div className="
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {content.map((item) => (
+              <ContentCard key={item.id} item={item} />
+            ))}
+          </div>
+        )}
+      </div>
+    </Layout>
+  );
+}
