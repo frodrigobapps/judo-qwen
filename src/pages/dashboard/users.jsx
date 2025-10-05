@@ -1,33 +1,46 @@
-import { useUser } from '@supabase/auth-helpers-react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import AdminPanel from '../../components/dashboard/AdminPanel';
 import Layout from '../../components/layout/Layout';
+import AdminPanel from '../../components/dashboard/AdminPanel';
 
-export default function UsersDashboard() {
-  const user = useUser();
+export default function UsersDashboard({ supabase }) {
   const router = useRouter();
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) {
-      router.push('/login');
-      return;
-    }
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/login');
+        return;
+      }
+      
+      // Verificar rol
+      const { data: userData, error } = await supabase
+        .from('users')
+        .select('role')
+        .eq('id', user.id)
+        .single();
 
-    // Check if user is admin
-    if (user.user_metadata?.role !== 'admin') {
-      router.push('/dashboard/content');
-    }
-  }, [user, router]);
+      if (error || userData?.role !== 'admin') {
+        router.push('/dashboard/content');
+        return;
+      }
 
-  if (!user || user.user_metadata?.role !== 'admin') {
-    return null;
-  }
+      setUser(user);
+      setLoading(false);
+    };
+
+    checkUser();
+  }, [supabase, router]);
+
+  if (loading) return null;
 
   return (
     <Layout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <AdminPanel />
+        <AdminPanel supabase={supabase} />
       </div>
     </Layout>
   );
