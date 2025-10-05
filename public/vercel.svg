@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 50">
+  <linearGradient id="a" gradientUnits="userSpaceOnUse" x1="105" y1="0" x2="105" y2="50">
+    <stop offset="0" stop-color="#000" stop-opacity=".05"/>
+    <stop offset=".165" stop-color="#000" stop-opacity=".05"/>
+    <stop offset=".5" stop-color="#000" stop-opacity=".1"/>
+    <stop offset=".835" stop-color="#000" stop-opacity=".05"/>
+    <stop offset="1" stop-color="#000" stop-opacity=".05"/>
+  </linearGradient>
+  <linearGradient id="b" gradientUnits="userSpaceOnUse" x1="105" y1="0" x2="105" y2="50">
+    <stop offset="0" stop-color="#fff" stop-opacity=".2"/>
+    <stop offset=".165" stop-color="#fff" stop-opacity=".2"/>
+    <stop offset=".5" stop-color="#fff" stop-opacity=".4"/>
+    <stop offset=".835" stop-color="#fff" stop-opacity=".2"/>
+    <stop offset="1" stop-color="#fff" stop-opacity=".2"/>
+  </linearGradient>
+  <rect x="0" y="0" width="210" height="50" rx="8" ry="8" fill="url(#a)"/>
+  <rect x="1" y="1" width="208" height="48" rx="7" ry="7" fill="url(#b)"/>
+  <path d="M30 38V12L48 25L30 38Z" fill="black"/>
+  <path d="M60 38V12L78 25L60 38Z" fill="black"/>
+  <path d="M90 38V12L108 25L90 38Z" fill="black"/>
+  <path d="M120 38V12L138 25L120 38Z" fill="black"/>
+  <path d="M150 38V12L168 25L150 38Z" fill="black"/>
+</svg>
