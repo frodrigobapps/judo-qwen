@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabaseClient';
 import UserTable from './UserTable';
-import Button from '../ui/Button';
 
-export default function AdminPanel() {
+export default function AdminPanel({ supabase }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newUserEmail, setNewUserEmail] = useState('');
@@ -36,7 +34,7 @@ export default function AdminPanel() {
     setError('');
     
     try {
-      // Create auth user
+      // Crear usuario en Auth
       const { data: authData, error: authError } = await supabase.auth.admin.createUser({
         email: newUserEmail,
         password: newUserPassword,
@@ -45,7 +43,7 @@ export default function AdminPanel() {
 
       if (authError) throw authError;
 
-      // Create user in our users table
+      // Crear en tabla users
       const { error: userError } = await supabase
         .from('users')
         .insert({
@@ -56,7 +54,6 @@ export default function AdminPanel() {
 
       if (userError) throw userError;
 
-      // Reset form
       setNewUserEmail('');
       setNewUserPassword('');
       fetchUsers();
@@ -73,7 +70,6 @@ export default function AdminPanel() {
         <p className="text-gray-600">Administra los usuarios y sus permisos en la plataforma.</p>
       </div>
 
-      {/* Create User Form */}
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-lg font-semibold mb-4">Crear Nuevo Usuario</h3>
         {error && (
@@ -107,21 +103,23 @@ export default function AdminPanel() {
             />
           </div>
           <div className="flex items-end">
-            <Button type="submit" className="w-full">
+            <button
+              type="submit"
+              className="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors"
+            >
               Crear Usuario
-            </Button>
+            </button>
           </div>
         </form>
       </div>
 
-      {/* Users Table */}
       {loading ? (
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
         </div>
       ) : (
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <UserTable users={users} onUserUpdate={fetchUsers} />
+          <UserTable users={users} onUserUpdate={fetchUsers} supabase={supabase} />
         </div>
       )}
     </div>
