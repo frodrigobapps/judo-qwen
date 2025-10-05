@@ -5,13 +5,35 @@ import { Menu, X } from 'lucide-react';
 export default function Header({ supabase }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
       if (!supabase) return;
       
-      const { data: { user } } = await supabase.auth.getUser();
+      const {  { user } } = await supabase.auth.getUser();
+      if (!user) {
+        setUser(null);
+        setIsAdmin(false);
+        return;
+      }
+
+      // Obtener rol del usuario
+      const { data: userData, error } = await supabase
+        .from('users')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+      if (error) {
+        console.error('Error al obtener rol del usuario:', error);
+        setUser(null);
+        setIsAdmin(false);
+        return;
+      }
+
       setUser(user);
+      setIsAdmin(userData?.role === 'admin');
     };
 
     fetchUser();
@@ -43,7 +65,7 @@ export default function Header({ supabase }) {
                 <Link href="/dashboard/content">
                   <a className="text-gray-600 hover:text-red-600 font-medium">Contenido</a>
                 </Link>
-                {user?.user_metadata?.role === 'admin' && (
+                {isAdmin && (
                   <>
                     <Link href="/dashboard/users">
                       <a className="text-gray-600 hover:text-red-600 font-medium">Usuarios</a>
@@ -91,7 +113,7 @@ export default function Header({ supabase }) {
                 <Link href="/dashboard/content">
                   <a className="block text-gray-600 hover:text-red-600 font-medium py-2">Contenido</a>
                 </Link>
-                {user?.user_metadata?.role === 'admin' && (
+                {isAdmin && (
                   <>
                     <Link href="/dashboard/users">
                       <a className="block text-gray-600 hover:text-red-600 font-medium py-2">Usuarios</a>
