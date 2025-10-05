@@ -1,4 +1,3 @@
-// src/components/layout/Header.jsx
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
@@ -45,9 +44,14 @@ export default function Header({ supabase }) {
                   <a className="text-gray-600 hover:text-red-600 font-medium">Contenido</a>
                 </Link>
                 {user?.user_metadata?.role === 'admin' && (
-                  <Link href="/dashboard/users">
-                    <a className="text-gray-600 hover:text-red-600 font-medium">Usuarios</a>
-                  </Link>
+                  <>
+                    <Link href="/dashboard/users">
+                      <a className="text-gray-600 hover:text-red-600 font-medium">Usuarios</a>
+                    </Link>
+                    <Link href="/dashboard/upload">
+                      <a className="text-gray-600 hover:text-red-600 font-medium">Subir Contenido</a>
+                    </Link>
+                  </>
                 )}
                 <button 
                   onClick={handleLogout}
@@ -88,9 +92,14 @@ export default function Header({ supabase }) {
                   <a className="block text-gray-600 hover:text-red-600 font-medium py-2">Contenido</a>
                 </Link>
                 {user?.user_metadata?.role === 'admin' && (
-                  <Link href="/dashboard/users">
-                    <a className="block text-gray-600 hover:text-red-600 font-medium py-2">Usuarios</a>
-                  </Link>
+                  <>
+                    <Link href="/dashboard/users">
+                      <a className="block text-gray-600 hover:text-red-600 font-medium py-2">Usuarios</a>
+                    </Link>
+                    <Link href="/dashboard/upload">
+                      <a className="block text-gray-600 hover:text-red-600 font-medium py-2">Subir Contenido</a>
+                    </Link>
+                  </>
                 )}
                 <button 
                   onClick={handleLogout}
