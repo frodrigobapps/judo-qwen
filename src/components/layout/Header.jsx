@@ -11,8 +11,10 @@ export default function Header({ supabase }) {
     const fetchUser = async () => {
       if (!supabase) return;
       
-      const {  { user } } = await supabase.auth.getUser();
-      if (!user) {
+      const response = await supabase.auth.getUser();
+      const currentUser = response?.data?.user;
+      
+      if (!currentUser) {
         setUser(null);
         setIsAdmin(false);
         return;
@@ -22,7 +24,7 @@ export default function Header({ supabase }) {
       const { data: userData, error } = await supabase
         .from('users')
         .select('role')
-        .eq('id', user.id)
+        .eq('id', currentUser.id)
         .single();
 
       if (error) {
@@ -32,7 +34,7 @@ export default function Header({ supabase }) {
         return;
       }
 
-      setUser(user);
+      setUser(currentUser);
       setIsAdmin(userData?.role === 'admin');
     };
 
@@ -132,4 +134,14 @@ export default function Header({ supabase }) {
               </div>
             ) : (
               <Link href="/login">
-                <a className="block bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700
+                <a className="block bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-center">
+                  Acceder
+                </a>
+              </Link>
+            )}
+          </div>
+        )}
+      </div>
+    </header>
+  );
+}
