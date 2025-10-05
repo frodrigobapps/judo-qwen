@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { supabase } from '../../lib/supabaseClient';
 
-export default function UserTable({ users, onUserUpdate }) {
+export default function UserTable({ users, onUserUpdate, supabase }) {
   const [editingId, setEditingId] = useState(null);
   const [editRole, setEditRole] = useState('');
 
