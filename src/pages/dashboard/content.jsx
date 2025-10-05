@@ -15,8 +15,10 @@ export default function ContentDashboard({ supabase }) {
     const checkUser = async () => {
       if (!supabase) return;
       
-      const {  { user } } = await supabase.auth.getUser();
-      if (!user) {
+      const response = await supabase.auth.getUser();
+      const currentUser = response?.data?.user;
+      
+      if (!currentUser) {
         router.push('/login');
         return;
       }
@@ -25,7 +27,7 @@ export default function ContentDashboard({ supabase }) {
       const { data: userData, error } = await supabase
         .from('users')
         .select('role')
-        .eq('id', user.id)
+        .eq('id', currentUser.id)
         .single();
 
       if (error) {
@@ -34,7 +36,7 @@ export default function ContentDashboard({ supabase }) {
         return;
       }
 
-      setUser(user);
+      setUser(currentUser);
       setIsAdmin(userData?.role === 'admin');
       fetchContent();
     };
